@@ -6,45 +6,69 @@ import java.util.concurrent.Semaphore;
 
 public class Hilo extends Thread {
 
+	// CONSTANTES 
+	public static final int nFilas = 10;
+	public static final int nColumnas = 10;
+	
+	
 	// ATRIBUTOS
 	private Semaphore mutex;
 	private Semaphore general;
 	private ArrayList<Panel> paneles;
+	private int id;
 	
 	
 	// CONSTRUCTOR
-	public Hilo(Semaphore mutex, Semaphore general, ArrayList<Panel> paneles) {
+	public Hilo(Semaphore mutex, Semaphore general, ArrayList<Panel> paneles, int id) {
 		this.general = general;
 		this.mutex = mutex;
 		this.paneles = paneles;
+		this.id = id;
 	}
 
 	
 	//GENERAR MATRICES
-    public void generarMatriz() {
-    	int[][] matriz = new int[10][10];
-    	for (int i = 0; i < 3; i++) {
-    		for (int j = 0; j < 3; j++) {
+    public int[][] generarMatriz() {
+    	int[][] matriz = new int[nFilas][nFilas];
+    	for (int i = 0; i < nFilas; i++) {
+    		for (int j = 0; j < nColumnas; j++) {
     			matriz[i][j] = Programa.rand.nextInt(); // Genera un número aleatorio entero
     		}
     	}
+    	return matriz;
     }
 	
     
     //SUMAR MATRICES
-    int resultado[][] = new int[3][3];
-    public int[][] sumarMatrices(int[][] matriz){
- 		for(int i = 0; i<3; i++) {
- 			for(int j = 0; j<3; j++) {
- 				resultado[i][j] += matriz[i][j] + matriz[i][j];
+    int resultado[][] = new int[nFilas][nFilas];
+    public int[][] sumarMatrices(int[][] matrizA, int[][] matrizB){
+ 		for(int i = 0; i<nFilas; i++) {
+ 			for(int j = 0; j<nColumnas; j++) {
+ 				resultado[i][j] += matrizA[i][j] + matrizB[i][j];
  			}
  		}
  	return resultado;	
  	}
  	
     
+    // IMPRIMIR MATRIZ
+    public void imprimirMatriz(int[][] matriz) {
+    	for (int i = 0; i < Hilo.nFilas; i++) {
+    		for(int j = 0; j<Hilo.nColumnas; i++) {
+    			System.out.println(matriz[i][j]);
+    		}
+    		System.out.print("\n");
+    	}
+    }
+    
 	@Override
 	public void run() {
+		// OPERACIONES CON MATRICES 
+		int[][] matrizA = generarMatriz();
+		int[][] matrizB = generarMatriz();
+		int[][] matrizResultado = sumarMatrices(matrizA, matrizB);
+		
+		// IMPRESIÓN DEL RESULTADO PROTEGIENDO LA PANTALLA
 		try {
 			general.acquire(); // Permite que entren como max 3 paneles
 		} catch (InterruptedException e) {
@@ -65,8 +89,8 @@ public class Hilo extends Thread {
 			panelActual.setOcupado(true);
 			mutex.release();
 			
-			panelActual.escribir_mensaje("Aitor");
-
+			panelActual.escribir_mensaje("Usando panel el hilo " + this.id, "Terminando de usar el panel el hilo " + this.id);
+			
 			Thread.sleep(1000); // Simulo trabajo de los hilos para aumentar la concurrencia
 			
 			mutex.acquire();

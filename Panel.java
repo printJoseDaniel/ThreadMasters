@@ -82,8 +82,9 @@ public class Panel
 	}
     
     
-    public void escribir_mensaje(String str){
+    public void escribir_mensaje(String str, String str2) {
     	t.append (str + "\n");
+    	t.append (str2 + "\n");
     	t.setCaretPosition(t.getCaretPosition()+str.length());
     }
 

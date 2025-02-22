@@ -23,16 +23,16 @@ public class Programa {
 		
 		Semaphore general = new Semaphore(NUM_PANELES);		
 		
-		Hilo hilo1 = new Hilo(mutex, general, paneles);
-		Hilo hilo2 = new Hilo(mutex, general, paneles);
-		Hilo hilo3 = new Hilo(mutex, general, paneles);
-		Hilo hilo4 = new Hilo(mutex, general, paneles);
-		Hilo hilo5 = new Hilo(mutex, general, paneles);
-		Hilo hilo6 = new Hilo(mutex, general, paneles);
-		Hilo hilo7 = new Hilo(mutex, general, paneles);
-		Hilo hilo8 = new Hilo(mutex, general, paneles);
-		Hilo hilo9 = new Hilo(mutex, general, paneles);
-		Hilo hilo10 = new Hilo(mutex, general, paneles);
+		Hilo hilo1 = new Hilo(mutex, general, paneles, 1);
+		Hilo hilo2 = new Hilo(mutex, general, paneles, 2);
+		Hilo hilo3 = new Hilo(mutex, general, paneles, 3);
+		Hilo hilo4 = new Hilo(mutex, general, paneles, 4);
+		Hilo hilo5 = new Hilo(mutex, general, paneles, 5);
+		Hilo hilo6 = new Hilo(mutex, general, paneles, 6);
+		Hilo hilo7 = new Hilo(mutex, general, paneles, 7);
+		Hilo hilo8 = new Hilo(mutex, general, paneles, 8);
+		Hilo hilo9 = new Hilo(mutex, general, paneles, 9);
+		Hilo hilo10 = new Hilo(mutex, general, paneles, 10);
 		
 		hilo1.start();
 		hilo2.start();
